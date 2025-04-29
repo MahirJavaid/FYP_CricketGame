@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1087044862189",
+    "project_id": "cricketgamefyp",
+    "storage_bucket": "cricketgamefyp.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1087044862189:android:f453decc94bae7bd94cce4",
+        "android_client_info": {
+          "package_name": "com.fyp.cricketGame"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCvgpEZbnZlJ2XPtCmTQzA7icP7sVxtOEQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

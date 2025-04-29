@@ -10,6 +10,29 @@
 /[Bb]uilds/
 /[Ll]ogs/
 /[Uu]ser[Ss]ettings/
+/Assets/Firebase/Plugins/x86_64/FirebaseCppApp-12_8_0.bundle
+/Assets/Firebase/Plugins/x86_64/FirebaseCppApp-12_8_0.so
+
+# Unity-specific
+/Library/
+/Temp/
+/Obj/
+/Build/
+/Builds/
+/UserSettings/
+
+# OS-specific
+.DS_Store
+Thumbs.db
+
+# Log files
+*.log
+
+# VS Code files
+.vscode/
+
+# Rider files
+.idea
 
 # MemoryCaptures can get excessive in size.
 # They also could contain extremely sensitive data
