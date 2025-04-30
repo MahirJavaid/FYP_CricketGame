@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class NextPage : MonoBehaviour
 {
+    public GameObject loginPanel; 
     // Start is called before the first frame update
     void Start()
     {
@@ -20,6 +21,16 @@ public class NextPage : MonoBehaviour
     public void goToLoadingPage()
     {
         SceneManager.LoadScene("LoadingPage");
+    }
+
+    public void loginAction()
+    {
+        loginPanel.SetActive(true);
+    }
+
+    public void cancelAction() 
+    {
+        loginPanel.SetActive(false);
     }
 
     public void ExitGame()
