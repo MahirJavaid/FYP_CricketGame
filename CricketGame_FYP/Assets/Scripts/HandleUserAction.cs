@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class NextPage : MonoBehaviour
-{ 
+public class HandleUserAction : MonoBehaviour
+{
     // Start is called before the first frame update
     void Start()
     {
@@ -22,14 +22,8 @@ public class NextPage : MonoBehaviour
         SceneManager.LoadScene("Login");
     }
 
-    public void goToSignupPage()
+    public void goToMainMenu()
     {
-        SceneManager.LoadScene("SignUp");
-    }
-
-    public void ExitGame()
-    {
-        UnityEditor.EditorApplication.isPlaying = false;
-        Application.Quit();
+        SceneManager.LoadScene("MainMenu");
     }
 }
