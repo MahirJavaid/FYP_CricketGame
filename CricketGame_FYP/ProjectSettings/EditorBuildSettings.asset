@@ -9,7 +9,7 @@ EditorBuildSettings:
     path: Assets/Scenes/SplashScreen.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
   - enabled: 1
-    path: Assets/Scenes/Login.unity
+    path: Assets/Scenes/MainMenu.unity
     guid: 86c2779c710985148be72180b74258ea
   - enabled: 1
     path: Assets/Scenes/LoadingPage.unity
@@ -17,5 +17,11 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/HomePage.unity
     guid: a6b1eaffefe21554e90b0c5717a3809b
+  - enabled: 1
+    path: Assets/Scenes/Login.unity
+    guid: 5269179dc488ac048893f66aacb20f6a
+  - enabled: 1
+    path: Assets/Scenes/SignUp.unity
+    guid: 6963d416ff517b14eb5e6fd9e328c5ef
   m_configObjects: {}
   m_UseUCBPForAssetBundles: 0
