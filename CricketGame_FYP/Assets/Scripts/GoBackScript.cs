@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class NextScreen : MonoBehaviour
+public class GoBackScript : MonoBehaviour
 {
     // Start is called before the first frame update
     void Start()
@@ -14,12 +14,11 @@ public class NextScreen : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        StartCoroutine(LoadLoginSceneAfterDelay());
+        
     }
 
-    private IEnumerator LoadLoginSceneAfterDelay()
+    public void goBack()
     {
-        yield return new WaitForSeconds(5);
-        SceneManager.LoadScene("MainMenu");
+        SceneManager.LoadScene("HomePage");
     }
 }
