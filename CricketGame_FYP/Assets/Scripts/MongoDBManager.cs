@@ -49,16 +49,16 @@ public class MongoDBTestConnection : MonoBehaviour
             var database = client.GetDatabase(dbName);
             var collection = database.GetCollection<BsonDocument>(collectionName);
 
-            var document = new BsonDocument
-            {
-                { "name", "John Doe" },
-                { "score", 100 },
-                { "team", "Team A" },
-                { "level", 1 }
-            };
+            // var document = new BsonDocument
+            // {
+            //     { "name", "John Doe" },
+            //     { "score", 100 },
+            //     { "team", "Team A" },
+            //     { "level", 1 }
+            // };
 
-            collection.InsertOne(document);
-            Debug.Log("Document inserted successfully!");
+            // collection.InsertOne(document);
+            // Debug.Log("Document inserted successfully!");
         }
         catch (System.Exception ex)
         {
