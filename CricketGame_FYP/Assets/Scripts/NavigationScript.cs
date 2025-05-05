@@ -21,4 +21,19 @@ public class NavigationScript : MonoBehaviour
     {
         SceneManager.LoadScene("ComingSoon");
     }
+
+    public void inventory()
+    {
+        SceneManager.LoadScene("InventoryScene");
+    }
+
+    public void stadiumScene()
+    {
+        SceneManager.LoadScene("SampleScene");
+    }
+
+    public void store()
+    {
+        SceneManager.LoadScene("StoreScene");
+    }
 }
