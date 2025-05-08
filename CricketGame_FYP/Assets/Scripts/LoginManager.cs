@@ -20,38 +20,55 @@ public class LoginManager : MonoBehaviour
 
     void Start()
     {
-        auth = FirebaseAuth.DefaultInstance;
-
-        submitButton.onClick.AddListener(Login);
-        cancelButton.onClick.AddListener(CancelLogin);
+        // Check Firebase dependencies and initialize FirebaseAuth
+        FirebaseApp.CheckAndFixDependenciesAsync().ContinueWithOnMainThread(task =>
+        {
+            if (task.Result == Firebase.DependencyStatus.Available)
+            {
+                auth = FirebaseAuth.DefaultInstance;
+                submitButton.onClick.AddListener(Login);
+                cancelButton.onClick.AddListener(CancelLogin);
+            }
+            else
+            {
+                errorMessageText.text = "Firebase is not available.";
+                Debug.LogError("Firebase is not available: " + task.Result.ToString());
+            }
+        });
     }
 
-    async void Login()
+   async void Login()
+{
+    string email = emailInputField.text.Trim();  
+    string password = passwordInputField.text;
+
+    // Check if email and password are empty
+    if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password))
     {
-        string email = emailInputField.text.Trim();  
-        string password = passwordInputField.text;
+        errorMessageText.text = "Please fill in both email and password.";
+        submitButton.interactable = true;  // Re-enable the button in case of an empty field
+        return;
+    }
 
-        if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password))
+    // Check if email format is valid
+    if (!IsValidEmail(email))
+    {
+        errorMessageText.text = "Invalid email format.";
+        submitButton.interactable = true;  // Re-enable the button in case of invalid email
+        return;
+    }
+
+    submitButton.interactable = false;
+    errorMessageText.text = "Logging in...";
+
+    try
+    {
+        Debug.Log("Attempting to sign in...");
+        var loginResult = await auth.SignInWithEmailAndPasswordAsync(email, password);
+
+        if (loginResult.User != null)
         {
-            errorMessageText.text = "Please fill in both email and password.";
-            return;
-        }
-
-        if (!IsValidEmail(email))
-        {
-            errorMessageText.text = "Invalid email format.";
-            return;
-        }
-
-        submitButton.interactable = false;
-        errorMessageText.text = "Logging in...";
-
-        try
-        {
-            Debug.Log("Attempting to sign in...");
-            var loginResult = await auth.SignInWithEmailAndPasswordAsync(email, password);
             FirebaseUser user = loginResult.User;
-
             string username = string.IsNullOrEmpty(user.DisplayName) ? "User" : user.DisplayName;
             Debug.Log("Username: " + username);
 
@@ -60,34 +77,47 @@ public class LoginManager : MonoBehaviour
             Debug.Log("Username saved to PlayerPrefs: " + PlayerPrefs.GetString("Username"));
 
             errorMessageText.text = "";
-            SceneManager.LoadScene("LoadingPage");
+            SceneManager.LoadScene("LoadingPage"); // Proceed to the loading page
         }
-        catch (FirebaseException ex)
+        else
         {
-            errorMessageText.text = HandleFirebaseError(ex);
-            Debug.LogError("Firebase Auth Error: " + ex.Message);
-        }
-        catch (System.Exception ex)
-        {
-            errorMessageText.text = "An error occurred: " + ex.Message;
-            Debug.LogError("Login Error: " + ex.Message);
-        }
-        finally
-        {
-            submitButton.interactable = true;
+            errorMessageText.text = "Login failed. User is null.";
+            Debug.LogError("Login failed. User is null.");
         }
     }
+    catch (FirebaseException ex)
+    {
+        // Handle Firebase-specific authentication errors
+        errorMessageText.text = HandleFirebaseError(ex);
+        Debug.LogError("Firebase Auth Error: " + ex.Message);
+        Debug.LogError("Stack Trace: " + ex.StackTrace);
+    }
+    catch (System.Exception ex)
+    {
+        // Handle any other errors
+        errorMessageText.text = "An error occurred: " + ex.Message;
+        Debug.LogError("Login Error: " + ex.Message);
+    }
+    finally
+    {
+        // Always re-enable the button when the operation is done
+        submitButton.interactable = true;
+    }
+}
+
 
     void CancelLogin()
     {
+        // Clear input fields and reset UI
         emailInputField.text = "";
         passwordInputField.text = "";
         errorMessageText.text = "";
-        SceneManager.LoadScene("Login");
+        SceneManager.LoadScene("MainMenu"); // Make sure the scene name is correct
     }
 
     bool IsValidEmail(string email)
     {
+        // Basic email format validation using regex
         string pattern = @"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$";
         Regex regex = new Regex(pattern);
         return regex.IsMatch(email);
@@ -97,18 +127,32 @@ public class LoginManager : MonoBehaviour
     {
         string errorMessage = ex.Message;
 
+        // Handle specific Firebase errors related to authentication
         if (errorMessage.Contains("wrong-password"))
         {
             return "Incorrect password.";
         }
         if (errorMessage.Contains("user-not-found"))
         {
-            return "User not found.";
+            return "User not found. Please check your email.";
         }
         if (errorMessage.Contains("invalid-email"))
         {
             return "Invalid email format.";
         }
+        if (errorMessage.Contains("network-error"))
+        {
+            return "Network error. Please check your internet connection.";
+        }
+        if (errorMessage.Contains("user-disabled"))
+        {
+            return "This account has been disabled.";
+        }
+        if (errorMessage.Contains("too-many-requests"))
+        {
+            return "Too many attempts. Please try again later.";
+        }
+
         return "Login failed. Please check your credentials.";
     }
 }
