@@ -22,10 +22,7 @@
         "appinvite_service": {
           "other_platform_oauth_client": []
         }
-      },
-      "firebase_realtime_database": {
-          "url": "https://cricketgamefyp-default-rtdb.firebaseio.com/"  
-        }
+      }
     }
   ],
   "configuration_version": "1"
