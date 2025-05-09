@@ -3673,9 +3673,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5304b9c16805f554c994f574cd30d84b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectedOvers: 0
-  selectedTeam: 
-  difficultyLevel: 
 --- !u!4 &2024483359
 Transform:
   m_ObjectHideFlags: 0

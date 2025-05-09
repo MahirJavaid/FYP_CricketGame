@@ -27,9 +27,9 @@ public class NavigationScript : MonoBehaviour
         SceneManager.LoadScene("InventoryScene");
     }
 
-    public void stadiumScene()
+    public void selectionScene()
     {
-        SceneManager.LoadScene("SampleScene");
+        SceneManager.LoadScene("TeamSelection");
     }
 
     public void store()
