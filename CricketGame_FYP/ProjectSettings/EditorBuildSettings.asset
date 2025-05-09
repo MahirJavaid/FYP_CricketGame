@@ -41,5 +41,8 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/UserProfile.unity
     guid: d4405bc56dee70b47bb1781d141b099a
+  - enabled: 1
+    path: Assets/Scenes/TeamSelection.unity
+    guid: 5752f77a17241e3488bdfe52e1dc9289
   m_configObjects: {}
   m_UseUCBPForAssetBundles: 0
