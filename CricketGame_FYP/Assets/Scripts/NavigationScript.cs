@@ -36,4 +36,14 @@ public class NavigationScript : MonoBehaviour
     {
         SceneManager.LoadScene("StoreScene");
     }
+
+    public void settings()
+    {
+        SceneManager.LoadScene("Settings");
+    }
+
+    public void profile()
+    {
+        SceneManager.LoadScene("UserProfile");
+    }
 }
