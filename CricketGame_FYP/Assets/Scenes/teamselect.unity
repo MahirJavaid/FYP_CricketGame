@@ -552,6 +552,7 @@ GameObject:
   - component: {fileID: 438645544}
   - component: {fileID: 438645543}
   - component: {fileID: 438645542}
+  - component: {fileID: 438645545}
   m_Layer: 5
   m_Name: srilanka
   m_TagString: Untagged
@@ -621,7 +622,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 438645543}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 438645545}
+        m_TargetAssemblyTypeName: TeamButtonHandler, Assembly-CSharp
+        m_MethodName: SelectTeam
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &438645543
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -660,6 +673,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 438645540}
   m_CullTransparentMesh: 1
+--- !u!114 &438645545
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 438645540}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd0212c03d5cc36428f16dfd663e7315, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  teamName: srilanka
 --- !u!1 &441009052
 GameObject:
   m_ObjectHideFlags: 0
@@ -1217,6 +1243,7 @@ GameObject:
   - component: {fileID: 746582337}
   - component: {fileID: 746582336}
   - component: {fileID: 746582335}
+  - component: {fileID: 746582338}
   m_Layer: 5
   m_Name: ind
   m_TagString: Untagged
@@ -1287,10 +1314,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2024483358}
-        m_TargetAssemblyTypeName: SelectionManager, Assembly-CSharp
+      - m_Target: {fileID: 746582338}
+        m_TargetAssemblyTypeName: TeamButtonHandler, Assembly-CSharp
         m_MethodName: SelectTeam
-        m_Mode: 5
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -1337,6 +1364,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 746582333}
   m_CullTransparentMesh: 1
+--- !u!114 &746582338
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 746582333}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd0212c03d5cc36428f16dfd663e7315, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  teamName: india
 --- !u!1 &1053541887
 GameObject:
   m_ObjectHideFlags: 0
@@ -1349,6 +1389,7 @@ GameObject:
   - component: {fileID: 1053541891}
   - component: {fileID: 1053541890}
   - component: {fileID: 1053541889}
+  - component: {fileID: 1053541892}
   m_Layer: 5
   m_Name: playbutton
   m_TagString: Untagged
@@ -1420,9 +1461,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2024483358}
-        m_TargetAssemblyTypeName: SelectionManager, Assembly-CSharp
-        m_MethodName: OnPlayButton
+      - m_Target: {fileID: 1053541892}
+        m_TargetAssemblyTypeName: SceneLoader, Assembly-CSharp
+        m_MethodName: LoadMatchScene
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1470,6 +1511,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1053541887}
   m_CullTransparentMesh: 1
+--- !u!114 &1053541892
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1053541887}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d78b8682ee01dd45961aa0c51846f28, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1094214677
 GameObject:
   m_ObjectHideFlags: 0
@@ -2233,6 +2286,7 @@ GameObject:
   - component: {fileID: 1381777765}
   - component: {fileID: 1381777764}
   - component: {fileID: 1381777763}
+  - component: {fileID: 1381777766}
   m_Layer: 5
   m_Name: pak
   m_TagString: Untagged
@@ -2303,16 +2357,16 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2024483358}
-        m_TargetAssemblyTypeName: SelectionManager, Assembly-CSharp
+      - m_Target: {fileID: 1381777766}
+        m_TargetAssemblyTypeName: TeamButtonHandler, Assembly-CSharp
         m_MethodName: SelectTeam
-        m_Mode: 5
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: pak
+          m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &1381777764
@@ -2353,6 +2407,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1381777761}
   m_CullTransparentMesh: 1
+--- !u!114 &1381777766
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1381777761}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd0212c03d5cc36428f16dfd663e7315, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  teamName: pak
 --- !u!1 &1385289423
 GameObject:
   m_ObjectHideFlags: 0
@@ -3027,6 +3094,7 @@ GameObject:
   - component: {fileID: 1821796918}
   - component: {fileID: 1821796917}
   - component: {fileID: 1821796916}
+  - component: {fileID: 1821796919}
   m_Layer: 5
   m_Name: nz
   m_TagString: Untagged
@@ -3097,10 +3165,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2024483358}
-        m_TargetAssemblyTypeName: SelectionManager, Assembly-CSharp
+      - m_Target: {fileID: 1821796919}
+        m_TargetAssemblyTypeName: TeamButtonHandler, Assembly-CSharp
         m_MethodName: SelectTeam
-        m_Mode: 5
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -3147,6 +3215,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1821796914}
   m_CullTransparentMesh: 1
+--- !u!114 &1821796919
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1821796914}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd0212c03d5cc36428f16dfd663e7315, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  teamName: nz
 --- !u!1 &1844325634
 GameObject:
   m_ObjectHideFlags: 0
@@ -3673,9 +3754,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5304b9c16805f554c994f574cd30d84b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectedOvers: 0
-  selectedTeam: 
-  difficultyLevel: 
 --- !u!4 &2024483359
 Transform:
   m_ObjectHideFlags: 0
