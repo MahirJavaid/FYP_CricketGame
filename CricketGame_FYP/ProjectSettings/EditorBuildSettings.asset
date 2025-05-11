@@ -44,5 +44,8 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/TeamSelection.unity
     guid: 5752f77a17241e3488bdfe52e1dc9289
+  - enabled: 1
+    path: Assets/Scenes/ScenarioMatch.unity
+    guid: 1702bd58fb0a679419a8a8391d23acf2
   m_configObjects: {}
   m_UseUCBPForAssetBundles: 0
