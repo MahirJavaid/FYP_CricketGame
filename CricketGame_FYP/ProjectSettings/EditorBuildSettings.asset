@@ -50,5 +50,8 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/TournamentSelect.unity
     guid: a89c3d5c76b954a4b959d77a994658af
+  - enabled: 1
+    path: Assets/Scenes/SkillGame.unity
+    guid: 66d7f0cfcf3802444adc0fd05806a378
   m_configObjects: {}
   m_UseUCBPForAssetBundles: 0

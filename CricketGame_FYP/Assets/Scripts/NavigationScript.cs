@@ -56,4 +56,9 @@ public class NavigationScript : MonoBehaviour
     {
         SceneManager.LoadScene("TournamentSelect");
     }
+
+    public void skillGame()
+    {
+        SceneManager.LoadScene("SkillGame");
+    }
 }
