@@ -46,4 +46,9 @@ public class NavigationScript : MonoBehaviour
     {
         SceneManager.LoadScene("UserProfile");
     }
+
+    public void scenarioMatch()
+    {
+        SceneManager.LoadScene("ScenarioMatch");
+    }
 }
