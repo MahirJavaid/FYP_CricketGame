@@ -51,4 +51,9 @@ public class NavigationScript : MonoBehaviour
     {
         SceneManager.LoadScene("ScenarioMatch");
     }
+
+    public void tournaments()
+    {
+        SceneManager.LoadScene("TournamentSelect");
+    }
 }
