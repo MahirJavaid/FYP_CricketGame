@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "1087044862189",
+    "firebase_url": "https://cricketgamefyp-default-rtdb.firebaseio.com",
     "project_id": "cricketgamefyp",
     "storage_bucket": "cricketgamefyp.firebasestorage.app"
   },
@@ -12,7 +13,12 @@
           "package_name": "com.fyp.cricketGame"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "1087044862189-c08n6i9s3c0m3v269flmkfthveddetg2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyCvgpEZbnZlJ2XPtCmTQzA7icP7sVxtOEQ"
@@ -20,7 +26,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1087044862189-c08n6i9s3c0m3v269flmkfthveddetg2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }
