@@ -29,7 +29,7 @@ public class NavigationScript : MonoBehaviour
 
     public void selectionScene()
     {
-        SceneManager.LoadScene("TeamSelection");
+        SceneManager.LoadScene("TeamSelectScene");
     }
 
     public void store()
