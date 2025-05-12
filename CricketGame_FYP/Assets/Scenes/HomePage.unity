@@ -2822,7 +2822,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1212922893}
         m_TargetAssemblyTypeName: NavigationScript, Assembly-CSharp
-        m_MethodName: comingSoon
+        m_MethodName: scenarioMatch
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
