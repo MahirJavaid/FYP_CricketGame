@@ -29,7 +29,7 @@ public class NavigationScript : MonoBehaviour
 
     public void selectionScene()
     {
-        SceneManager.LoadScene("TeamSelection");
+        SceneManager.LoadScene("TeamSelectScene");
     }
 
     public void store()
@@ -50,5 +50,15 @@ public class NavigationScript : MonoBehaviour
     public void scenarioMatch()
     {
         SceneManager.LoadScene("ScenarioMatch");
+    }
+
+    public void tournaments()
+    {
+        SceneManager.LoadScene("TournamentSelect");
+    }
+
+    public void skillGame()
+    {
+        SceneManager.LoadScene("SkillGame");
     }
 }

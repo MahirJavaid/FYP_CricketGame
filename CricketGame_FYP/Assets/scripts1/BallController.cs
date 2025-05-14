@@ -33,7 +33,7 @@ public class BallController : MonoBehaviour
         flightTimer = 0f;
 
         Vector3 direction = (batTarget.position - transform.position).normalized;
-        rb.velocity = direction * launchForce;
+        rb.linearVelocity = direction * launchForce;
     }
 
     void Update()
@@ -72,7 +72,7 @@ public class BallController : MonoBehaviour
             Vector3 bounceDirection = (transform.position - collision.transform.position).normalized;
             bounceDirection.y = 1f;
 
-            rb.velocity = Vector3.zero;
+            rb.linearVelocity = Vector3.zero;
             rb.AddForce(bounceDirection * hitForce, ForceMode.Impulse);
 
             StartCoroutine(ResetAfterDelay());

@@ -11,21 +11,19 @@ using UnityEngine.SceneManagement;
 public class UserProfileManager : MonoBehaviour
 {
     // Display components (TextMeshProUGUI for TextMeshPro)
-    public TextMeshProUGUI displayNameText; // Updated to TextMeshProUGUI
-    public TextMeshProUGUI displayEmailText; // Updated to TextMeshProUGUI
-    public TextMeshProUGUI displayPasswordText; // Updated to TextMeshProUGUI
+    public TextMeshProUGUI displayNameText;
+    public TextMeshProUGUI displayEmailText;
+    public TextMeshProUGUI displayPasswordText;
 
     // Editable fields (TMP_InputFields for TextMeshPro)
-    public TMP_InputField nameInputField; // Updated to TMP_InputField
-    public TMP_InputField emailInputField; // Updated to TMP_InputField
-    public TMP_InputField passwordInputField; // Updated to TMP_InputField
+    public TMP_InputField nameInputField;
+    public TMP_InputField emailInputField;
+    public TMP_InputField passwordInputField;
 
     // Buttons
-    public Button changeNameButton;
-    public Button changeEmailButton;
-    public Button changePasswordButton;
-    public Button saveButton;
-    public Button backButton;
+    public Button changeButton;  // Change button to toggle edit mode
+    public Button saveButton;    // Save button to save changes
+    public Button backButton;    // Back button
 
     private FirebaseAuth auth;
     private DatabaseReference database;
@@ -38,8 +36,12 @@ public class UserProfileManager : MonoBehaviour
 
     void Start()
     {
-        Debug.Log("Firebase initialization starting...");
+        // Initially hide the editable input fields
+        nameInputField.gameObject.SetActive(false);
+        emailInputField.gameObject.SetActive(false);
+        passwordInputField.gameObject.SetActive(false);
 
+        // Initialize Firebase
         FirebaseApp.CheckAndFixDependenciesAsync().ContinueWith(task =>
         {
             if (task.Result == DependencyStatus.Available)
@@ -55,23 +57,21 @@ public class UserProfileManager : MonoBehaviour
                     return;
                 }
 
-                Debug.Log("User logged in successfully.");
-                Debug.Log("User ID: " + user.UserId);
-
                 userId = user.UserId;
+                Debug.Log("User ID: " + user.UserId);
+                Debug.Log("User Display Name: " + user.DisplayName);
+                Debug.Log("User Email: " + user.Email);
 
                 FirebaseDatabase firebaseDatabase = FirebaseDatabase.GetInstance(FirebaseApp.DefaultInstance);
                 database = firebaseDatabase.RootReference;
 
                 // Set listeners for the buttons
-                changeNameButton.onClick.AddListener(() => ActivateEditField("name"));
-                changeEmailButton.onClick.AddListener(() => ActivateEditField("email"));
-                changePasswordButton.onClick.AddListener(() => ActivateEditField("password"));
-                saveButton.onClick.AddListener(SaveChanges);
-                backButton.onClick.AddListener(GoBack);
+                changeButton.onClick.AddListener(ToggleEditFields);  // Toggle edit mode on Change button click
+                saveButton.onClick.AddListener(SaveChanges);        // Save button to save changes
+                backButton.onClick.AddListener(GoBack);             // Back button to go to previous screen
 
-                // Display user info
-                DisplayUserInfo();
+                // Fetch user info from Firebase Database
+                FetchUserDataFromDatabase(user);
             }
             else
             {
@@ -80,91 +80,72 @@ public class UserProfileManager : MonoBehaviour
         });
     }
 
-    // Display current user info from Firebase Realtime Database and Authentication
-    private void DisplayUserInfo()
+    // Fetch user data (name, email, etc.) from Firebase Realtime Database
+    public void FetchUserDataFromDatabase(FirebaseUser user)
     {
-        FirebaseUser user = auth.CurrentUser;
-
         if (user != null)
         {
-            Debug.Log("User is logged in. Fetching data...");
+            string userPath = "users/" + user.UserId;  // Path to the user's data in Firebase Realtime Database
+            Debug.Log("Fetching user data from Firebase Realtime Database at: " + userPath);
 
-            // Display name, email, and password (masked) on the UI
-            displayNameText.text = user.DisplayName ?? "Not Set";
-            displayEmailText.text = user.Email ?? "Not Set";
-            displayPasswordText.text = "••••••";  // Mask password for security
+            // Reference to the Firebase Realtime Database
+            DatabaseReference reference = FirebaseDatabase.GetInstance(FirebaseApp.DefaultInstance).RootReference;
 
-            // Pre-fill InputFields with current values from Firebase Authentication
-            nameInputField.text = user.DisplayName ?? "";
-            emailInputField.text = user.Email ?? "";
-            passwordInputField.text = ""; // Clear password field
+            // Fetch user info from Firebase Realtime Database using userId
+            reference.Child(userPath).GetValueAsync().ContinueWith(task =>
+            {
+                if (task.IsFaulted)
+                {
+                    // Handle the error if fetching fails
+                    Debug.LogError("Error occurred while fetching data from Firebase Realtime Database: " + task.Exception);
+                }
+                else if (task.IsCompleted)
+                {
+                    // Data has been fetched successfully
+                    DataSnapshot snapshot = task.Result;
 
-            // Attempt to fetch additional user data from Firebase Realtime Database first
-            FetchUserDataFromDatabase(user);
+                    // Check if the snapshot exists and contains data
+                    if (snapshot.Exists)
+                    {
+                        Debug.Log("Data fetched from Firebase Realtime Database.");
+                        Debug.Log("Snapshot Data: " + snapshot.GetRawJsonValue());  // Log the raw data
+
+                        // Extract name and email from Firebase
+                        string name = snapshot.Child("name").Value.ToString();
+                        string email = snapshot.Child("email").Value.ToString();
+
+                         
+                          // Check if the fetched data is correct
+                        Debug.Log("Fetched Name: " + name);
+                        Debug.Log("Fetched Email: " + email);
+
+// Update UI with the fetched data
+                        displayNameText.text = name;
+                        displayEmailText.text = email;
+
+// Confirm the UI update
+                        Debug.Log("Updated Display Name: " + displayNameText.text);
+                        Debug.Log("Updated Display Email: " + displayEmailText.text);
+
+                        
+                    }
+                    else
+                    {
+                        Debug.LogWarning("No data found in Firebase Realtime Database.");
+                        Debug.Log("Attempting to fetch data from MongoDB...");
+                        FetchUserDataFromMongoDB(user.UserId);
+                    }
+                }
+            });
         }
         else
         {
-            Debug.LogError("User is not logged in or Firebase user is null.");
-        }
-    }
-
-    // Fetch user data (name, email, etc.) from Firebase Realtime Database
-    private void FetchUserDataFromDatabase(FirebaseUser user)
-    {
-        // Check if user is valid
-        if (user == null)
-        {
             Debug.LogError("FirebaseUser is null. Cannot fetch data.");
-            return;
         }
-
-        Debug.Log("Attempting to fetch user data from Firebase Realtime Database...");
-
-        // Reference to the Firebase Realtime Database
-        DatabaseReference reference = FirebaseDatabase.GetInstance(FirebaseApp.DefaultInstance).RootReference;
-
-        // Fetch user info from Firebase Realtime Database using userId
-        reference.Child("users").Child(user.UserId).GetValueAsync().ContinueWith(task =>
-        {
-            if (task.IsFaulted)
-            {
-                // Handle the error if fetching fails
-                Debug.LogError("Error occurred while fetching data from Firebase Realtime Database: " + task.Exception);
-            }
-            else if (task.IsCompleted)
-            {
-                // Data has been fetched successfully
-                DataSnapshot snapshot = task.Result;
-
-                // Check if the snapshot exists
-                if (snapshot.Exists)
-                {
-                    Debug.Log("Data fetched from Firebase Realtime Database.");
-
-                    // Extract name and email from Firebase
-                    string name = snapshot.Child("name").Value.ToString();
-                    string email = snapshot.Child("email").Value.ToString();
-
-                    // Update UI with the fetched data
-                    displayNameText.text = name;
-                    displayEmailText.text = email;
-
-                    // Pre-fill InputFields with fetched data
-                    nameInputField.text = name;
-                    emailInputField.text = email;
-                }
-                else
-                {
-                    // If no data is found in Firebase, attempt to fetch from MongoDB
-                    Debug.LogWarning("No data found in Firebase Realtime Database. Fetching from MongoDB...");
-                    FetchUserDataFromMongoDB(user.UserId);
-                }
-            }
-        });
     }
 
     // Fetch user data from MongoDB if not found in Firebase
-    private void FetchUserDataFromMongoDB(string userId)
+    public void FetchUserDataFromMongoDB(string userId)
     {
         try
         {
@@ -201,64 +182,26 @@ public class UserProfileManager : MonoBehaviour
         }
     }
 
-    // Activate InputField for editing
-    private void ActivateEditField(string fieldType)
+    // Toggle between display and edit mode for all fields
+    public void ToggleEditFields()
     {
-        // Hide the corresponding text and show the input field
-        if (fieldType == "name")
-        {
-            displayNameText.gameObject.SetActive(false); // Hide Text
-            nameInputField.gameObject.SetActive(true); // Show InputField
-        }
-        else if (fieldType == "email")
-        {
-            displayEmailText.gameObject.SetActive(false); // Hide Text
-            emailInputField.gameObject.SetActive(true); // Show InputField
-        }
-        else if (fieldType == "password")
-        {
-            displayPasswordText.gameObject.SetActive(false); // Hide Text
-            passwordInputField.gameObject.SetActive(true); // Show InputField
-        }
+        bool isEditing = nameInputField.gameObject.activeSelf;  // Check if input fields are currently visible
 
-        // Change Change button text to "Cancel"
-        SetButtonText("Cancel");
+        // Toggle visibility of the display and input fields
+        displayNameText.gameObject.SetActive(isEditing); 
+        displayEmailText.gameObject.SetActive(isEditing);
+        displayPasswordText.gameObject.SetActive(isEditing);
 
-        // Disable other fields to prevent simultaneous editing
-        if (fieldType != "name")
-            nameInputField.gameObject.SetActive(false);
-        if (fieldType != "email")
-            emailInputField.gameObject.SetActive(false);
-        if (fieldType != "password")
-            passwordInputField.gameObject.SetActive(false);
-    }
+        nameInputField.gameObject.SetActive(!isEditing);
+        emailInputField.gameObject.SetActive(!isEditing);
+        passwordInputField.gameObject.SetActive(!isEditing);
 
-    // Handle switching between Change and Cancel
-    private void SetButtonText(string text)
-    {
-        changeNameButton.GetComponentInChildren<Text>().text = text;
-        changeEmailButton.GetComponentInChildren<Text>().text = text;
-        changePasswordButton.GetComponentInChildren<Text>().text = text;
-    }
-
-    // Cancel editing and return to display mode
-    private void CancelEdit()
-    {
-        // Switch back to display mode without saving changes
-        displayNameText.gameObject.SetActive(true);
-        displayEmailText.gameObject.SetActive(true);
-        displayPasswordText.gameObject.SetActive(true);
-
-        nameInputField.gameObject.SetActive(false);
-        emailInputField.gameObject.SetActive(false);
-        passwordInputField.gameObject.SetActive(false);
-
-        // Reset Change button text
-        SetButtonText("Change");
+        // Change button text to "Cancel" if editing or "Change" if not editing
+        changeButton.GetComponentInChildren<Text>().text = isEditing ? "Change" : "Cancel";
     }
 
     // Save changes to Firebase, MongoDB, and Authentication
-    private void SaveChanges()
+    public void SaveChanges()
     {
         string newName = nameInputField.text.Trim();
         string newEmail = emailInputField.text.Trim();
@@ -266,30 +209,28 @@ public class UserProfileManager : MonoBehaviour
 
         Debug.Log($"Saving Changes: Name: {newName}, Email: {newEmail}, Password: {newPassword}");
 
-        // Update name if changed
+        // Update name, email, and password if changed
         if (newName != displayNameText.text)
         {
             UpdateName(newName);
         }
 
-        // Update email if changed
         if (newEmail != displayEmailText.text)
         {
             UpdateEmail(newEmail);
         }
 
-        // Update password if changed
         if (!string.IsNullOrEmpty(newPassword))
         {
             UpdatePassword(newPassword);
         }
 
         // Switch back to display mode after saving changes
-        CancelEdit();
+        ToggleEditFields();
     }
 
     // Update username in Firebase Authentication and Realtime Database
-    private void UpdateName(string newName)
+    public void UpdateName(string newName)
     {
         FirebaseUser user = auth.CurrentUser;
         UserProfile profile = new UserProfile { DisplayName = newName };
@@ -313,7 +254,7 @@ public class UserProfileManager : MonoBehaviour
     }
 
     // Update email in Firebase Authentication and Realtime Database
-    private void UpdateEmail(string newEmail)
+    public void UpdateEmail(string newEmail)
     {
         FirebaseUser user = auth.CurrentUser;
         user.UpdateEmailAsync(newEmail).ContinueWith(task =>
@@ -336,7 +277,7 @@ public class UserProfileManager : MonoBehaviour
     }
 
     // Update password in Firebase Authentication and MongoDB
-    private void UpdatePassword(string newPassword)
+    public void UpdatePassword(string newPassword)
     {
         FirebaseUser user = auth.CurrentUser;
         user.UpdatePasswordAsync(newPassword).ContinueWith(task =>
@@ -355,7 +296,7 @@ public class UserProfileManager : MonoBehaviour
     }
 
     // Update data in MongoDB (username, email, or password)
-    private void UpdateMongoDB(string field, string newValue)
+    public void UpdateMongoDB(string field, string newValue)
     {
         try
         {
@@ -376,7 +317,7 @@ public class UserProfileManager : MonoBehaviour
     }
 
     // Navigate back to the previous screen
-    private void GoBack()
+    public void GoBack()
     {
         SceneManager.LoadScene("HomePage");
     }

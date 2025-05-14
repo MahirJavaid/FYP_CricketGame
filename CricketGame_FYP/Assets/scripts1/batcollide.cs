@@ -13,7 +13,7 @@ public class batcollide : MonoBehaviour
             if (rb != null)
             {
                 Vector3 hitDirection = transform.forward + Vector3.up * 0.3f;
-                rb.velocity = Vector3.zero;
+                rb.linearVelocity = Vector3.zero;
                 rb.AddForce(hitDirection.normalized * hitForce, ForceMode.VelocityChange);
                 Debug.Log("ball hit!");
             }

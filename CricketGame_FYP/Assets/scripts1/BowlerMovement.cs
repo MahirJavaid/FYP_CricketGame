@@ -109,7 +109,7 @@ public class BowlerMovement : MonoBehaviour
         // Reset ball
         ball.transform.position = ballStartPos;
         ball.transform.rotation = Quaternion.identity;
-        ball.GetComponent<Rigidbody>().velocity = Vector3.zero;
+        ball.GetComponent<Rigidbody>().linearVelocity = Vector3.zero;
         ball.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
 
         // Reset states
