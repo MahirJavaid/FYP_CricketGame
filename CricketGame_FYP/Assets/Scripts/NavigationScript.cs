@@ -61,4 +61,9 @@ public class NavigationScript : MonoBehaviour
     {
         SceneManager.LoadScene("SkillGame");
     }
+
+     public void leaderboard()
+    {
+        SceneManager.LoadScene("Leaderboard");
+    }
 }
