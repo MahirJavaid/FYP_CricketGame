@@ -21,4 +21,9 @@ public class GoBackScript : MonoBehaviour
     {
         SceneManager.LoadScene("HomePage");
     }
+    
+    public void gameScene() 
+    {
+        SceneManager.LoadScene("SampleScene");
+    }
 }

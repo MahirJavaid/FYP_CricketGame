@@ -62,8 +62,13 @@ public class NavigationScript : MonoBehaviour
         SceneManager.LoadScene("SkillGame");
     }
 
-     public void leaderboard()
+    public void leaderboard()
     {
         SceneManager.LoadScene("Leaderboard");
+    }
+
+    public void market()
+    {
+        SceneManager.LoadScene("ExchangeMarket");
     }
 }
